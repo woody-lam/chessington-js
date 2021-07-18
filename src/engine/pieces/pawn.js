@@ -8,12 +8,18 @@ export default class Pawn extends Piece {
     }
 
     getAvailableMoves(board) {
-        var possibleMoves = [Object.assign({}, board.findPiece(this))];
-        (this.player === Player.WHITE) ? possibleMoves[0].row++ : possibleMoves[0].row--;
+        var currentSquare = Object.assign({}, board.findPiece(this));
+        (this.player === Player.WHITE) ? currentSquare.row++ : currentSquare.row--;
+        if (this.isSquareOccupied(board, currentSquare)) {
+            return []
+        }
+        
+        var possibleMoves = [currentSquare]
 
         if (this.movesTaken === 0){
-            possibleMoves.push(Object.assign({}, possibleMoves[0]));
-            (this.player === Player.WHITE) ? possibleMoves[1].row++ : possibleMoves[1].row--;
+            currentSquare = Object.assign({}, possibleMoves[0]);
+            (this.player === Player.WHITE) ? currentSquare.row++ : currentSquare.row--;
+            possibleMoves.push((this.isSquareOccupied(board, currentSquare)) ? {} : currentSquare);
         } 
 
         return possibleMoves;

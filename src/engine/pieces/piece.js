@@ -15,7 +15,15 @@ export default class Piece {
         this.movesTaken++;
     }
 
-    moveInBounds(newSquare) {
+    isMoveInBounds(newSquare) {
         return (newSquare.row < 0 || newSquare.row > 7 || newSquare.col < 0 || newSquare.col > 7)? false: true;
+    }
+
+    isSquareOccupied(board, newSquare) {
+        console.log(board.getPiece(newSquare))
+        if (board.getPiece(newSquare) != undefined){
+            return true
+        }
+        return false
     }
 }
