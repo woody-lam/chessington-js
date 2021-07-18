@@ -14,4 +14,8 @@ export default class Piece {
         board.movePiece(currentSquare, newSquare);
         this.movesTaken++;
     }
+
+    moveInBounds(newSquare) {
+        return (newSquare.row < 0 || newSquare.row > 7 || newSquare.col < 0 || newSquare.col > 7)? false: true;
+    }
 }
