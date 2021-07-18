@@ -1,3 +1,5 @@
+import GameSettings from "../gameSettings";
+
 export default class Piece {
 
     constructor(player) {
@@ -15,12 +17,15 @@ export default class Piece {
         this.movesTaken++;
     }
 
-    isMoveInBounds(newSquare) {
-        return (newSquare.row < 0 || newSquare.row > 7 || newSquare.col < 0 || newSquare.col > 7)? false: true;
+    isMoveImpossible(board, newSquare){
+        return this.isMoveOutOfBounds(newSquare) || this.isSquareOccupied(board, newSquare)
+    }
+
+    isMoveOutOfBounds(newSquare) {
+        return (newSquare.row < 0 || newSquare.row > GameSettings.BOARD_SIZE - 1 || newSquare.col < 0 || newSquare.col > GameSettings.BOARD_SIZE - 1)? true: false;
     }
 
     isSquareOccupied(board, newSquare) {
-        console.log(board.getPiece(newSquare))
         if (board.getPiece(newSquare) != undefined){
             return true
         }
