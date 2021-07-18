@@ -13,7 +13,12 @@ export default class MultiMovePiece extends Piece {
         while (true) {
             currentSquare.row += step.row * size;
             currentSquare.col += step.col * size;
-            if (this.isMoveImpossible(board, currentSquare)) {return possibleMoves;};
+            if (this.isMoveOutOfBounds(currentSquare)) {return possibleMoves;}
+            if (this.isSquareOccupied(board,currentSquare)) {
+                if (this.canPieceBeTaken(board, currentSquare)) possibleMoves.push(currentSquare);
+                return possibleMoves;
+            }
+            
             possibleMoves.push(currentSquare);
             currentSquare = Object.assign({}, possibleMoves[possibleMoves.length-1]);
         }

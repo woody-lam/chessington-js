@@ -26,9 +26,11 @@ export default class Piece {
     }
 
     isSquareOccupied(board, newSquare) {
-        if (board.getPiece(newSquare) != undefined){
-            return true
-        }
-        return false
+        return (board.getPiece(newSquare) == undefined) ? false : true;
+    }
+
+    canPieceBeTaken(board, newSquare) {
+        const piece = board.getPiece(newSquare)
+        return (piece.player != this.player && piece.name != "King") ? true : false;
     }
 }
