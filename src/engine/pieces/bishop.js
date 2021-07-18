@@ -1,11 +1,8 @@
-import Piece from './piece';
+import MultiMovePiece from './MultiMovePiece';
+import Square from '../square'
 
-export default class Bishop extends Piece {
-    constructor(player) {
-        super(player);
-    }
-
-    getAvailableMoves(board) {
-        return new Array(0);
+export default class Bishop extends MultiMovePiece {
+    constructor(player, steps = [new Square(1,1), new Square(1,-1)]) {
+        super(player, steps);
     }
 }
