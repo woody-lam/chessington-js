@@ -1,5 +1,6 @@
 import Piece from './piece';
 import Player from '../player';
+import Square from '../square';
 
 export default class Pawn extends Piece {
     
@@ -8,20 +9,34 @@ export default class Pawn extends Piece {
     }
 
     getAvailableMoves(board) {
+        var direction = (this.player === Player.WHITE) ? 1 : -1;
+        var possibleMoves = this.getAvailableMovesToTake(board, direction)
         var currentSquare = Object.assign({}, board.findPiece(this));
-        (this.player === Player.WHITE) ? currentSquare.row++ : currentSquare.row--;
-        if (this.isMoveImpossible(board, currentSquare)) {
-            return []
-        }
+        currentSquare.row += direction;
+        if (this.isMoveImpossible(board, currentSquare)) return possibleMoves;
 
-        var possibleMoves = [currentSquare]
+        possibleMoves.push(currentSquare);
 
         if (this.movesTaken === 0){
             currentSquare = Object.assign({}, possibleMoves[0]);
-            (this.player === Player.WHITE) ? currentSquare.row++ : currentSquare.row--;
+            currentSquare.row += direction;
             possibleMoves.push((this.isMoveImpossible(board, currentSquare)) ? {} : currentSquare);
         } 
 
+        return possibleMoves;
+    }
+
+    getAvailableMovesToTake(board, direction) {
+        var possibleMoves = [];
+        for (var step of [new Square(1,1), new Square(1, -1)]){
+            var currentSquare = Object.assign({}, board.findPiece(this));
+            currentSquare.row += step.row * direction;
+            currentSquare.col += step.col * direction;
+            if (this.isMoveOutOfBounds(currentSquare)) break;
+            if (this.isSquareOccupied(board, currentSquare)) {
+                if (this.canPieceBeTaken(board, currentSquare)) possibleMoves.push(currentSquare);
+            }
+        }
         return possibleMoves;
     }
 }
