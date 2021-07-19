@@ -11,7 +11,9 @@ export default class SingleMovePiece extends Piece {
         var currentSquare = Object.assign({}, board.findPiece(this));
         currentSquare.row += step.row * size;
         currentSquare.col += step.col * size;
-        return (this.isMoveImpossible(board, currentSquare)) ? [] : [currentSquare];
+        if (this.isMoveOutOfBounds(currentSquare)) return [];
+        if (!this.isSquareOccupied(board, currentSquare)) return [currentSquare];
+        return (this.canPieceBeTaken(board, currentSquare)) ? [currentSquare] : [];
     }
 
     getAvailableMoves(board) {
